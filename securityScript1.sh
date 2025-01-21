@@ -266,7 +266,6 @@ configure_sysctl() {
         "net.ipv6.conf.default.autoconf = 0"
         "net.ipv6.conf.default.dad_transmits = 0"
         "net.ipv6.conf.default.max_addresses = 1"
-
     )
     
     printf "%s\n" "${sysctl_config[@]}" | sudo tee -a /etc/sysctl.conf || handle_error "Failed to update sysctl.conf"
