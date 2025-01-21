@@ -316,6 +316,8 @@ echo ff02::2 ip6-allrouters >> /etc/hosts
 #finds directories that can be written by anyone, anywhere
 ( echo "finding world writable files" >> worldWrite.txt; find / -perm -2 ! -type l -ls >> worldWrite.txt; echo "Finished looking for world writable files") &
 
+sudo unalias -a
+
 #more specific script elements to include https://github.com/konstruktoid/hardening/blob/master/scripts/auditd
 
 #install ssh server -> apt-get install openssh-server -y
