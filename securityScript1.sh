@@ -113,6 +113,12 @@ echo "AUTO SECURITY UPDATES ENABLED"
 sudo apt-get install unattended-upgrades
 sudo dpkg-reconfigure unattended-upgrades
 
+#Check for automatic updates
+echo "APT::Periodic::Update-Package-Lists \"1\";
+APT::Periodic::Download-Upgradeable-Packages \"0\";
+APT::Periodic::AutocleanInterval \"0\";" > /etc/apt/apt.conf.d/10periodic
+echo "Checks for updates automatically"
+
 #find all media files and remove
 
 echo "REMOVE MPR AND MOV FILES"
@@ -285,6 +291,30 @@ aa-enforce /etc/apparmor.d/*
 echo "Initializing AIDE, the file integrity checker..."
 aideinit
 mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
+
+#Cleans out the path file in case it has been modified to point to illegal places, makes a copy to the desktop in case you wanted to see it
+cp /etc/environment $(pwd)/environment
+echo "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"" > /etc/environment
+echo "Finished cleaning the PATH"
+
+#This clears out the HOST file so that unintentional/malicious networks are accidentally accessed.
+echo "Clearing HOSTS file"
+#echo $(date): Clearing HOSTS file >> Warnings.txt
+cp /etc/hosts hosts
+echo 127.0.0.1	localhost > /etc/hosts
+echo 127.0.1.1	ubuntu  >> /etc/hosts
+
+echo ::1     ip6-localhost ip6-loopback >> /etc/hosts
+echo fe00::0 ip6-localnet >> /etc/hosts
+echo ff00::0 ip6-mcastprefix >> /etc/hosts
+echo ff02::1 ip6-allnodes >> /etc/hosts
+echo ff02::2 ip6-allrouters >> /etc/hosts
+
+#Finds files that appear to be placed down by no one. Would tell you if someone placed down something, then removed their user leaving that file around
+( echo "Finding files with no Family" >> suspectFind.txt; find / \( -nouser -o -nogroup \) >> suspectFind.txt; echo "" >> suspectFind.txt; echo "Finished looking for suspicious file with no user/group" ) &
+
+#finds directories that can be written by anyone, anywhere
+( echo "finding world writable files" >> worldWrite.txt; find / -perm -2 ! -type l -ls >> worldWrite.txt; echo "Finished looking for world writable files") &
 
 #more specific script elements to include https://github.com/konstruktoid/hardening/blob/master/scripts/auditd
 
