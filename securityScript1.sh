@@ -25,6 +25,8 @@ sudo ufw deny 2049 #commonly attacked port
 sudo ufw deny 7100 #allows for buffer overflows
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
+sudo ufw logging on
+sudo ufw logging high
 
 #denying ufw connections depending on service (comment out if service is approved)
 sudo ufw deny ftp 
@@ -250,6 +252,21 @@ configure_sysctl() {
         ""
         "# Restrict kernel profiling"
         "kernel.perf_event_paranoid = 2"
+        ""
+        # Disable IPv6
+        "net.ipv6.conf.all.disable_ipv6 = 1"
+        "net.ipv6.conf.default.disable_ipv6 = 1"
+        "net.ipv6.conf.lo.disable_ipv6 = 1"
+        ""
+        # Incase IPv6 is necessary
+        "net.ipv6.conf.default.router_solicitations = 0"
+        "net.ipv6.conf.default.accept_ra_rtr_pref = 0"
+        "net.ipv6.conf.default.accept_ra_pinfo = 0"
+        "net.ipv6.conf.default.accept_ra_defrtr = 0"
+        "net.ipv6.conf.default.autoconf = 0"
+        "net.ipv6.conf.default.dad_transmits = 0"
+        "net.ipv6.conf.default.max_addresses = 1"
+
     )
     
     printf "%s\n" "${sysctl_config[@]}" | sudo tee -a /etc/sysctl.conf || handle_error "Failed to update sysctl.conf"
