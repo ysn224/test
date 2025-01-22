@@ -49,11 +49,43 @@ sudo apt-get clean -y -qq
 
 echo "SYSTEM FILE PERMISSIONS (ex. bash history)"
 #sudo chmod 640 ../.bash_history
-sudo chmod 400 /etc/shadow
-sudo chmod 644 /etc/hosts
-sudo chmod 600 /etc/gshadow
+    #sudo chmod 400 /etc/shadow
+    #sudo chmod 644 /etc/hosts
+    #sudo chmod 600 /etc/gshadow
 # $name = readline("Please type in your username")
 # sudo chmod 640 /home/$name/bash_history
+chown root:root /etc/securetty
+	chmod 0600 /etc/securetty
+	chmod 644 /etc/crontab
+	chmod 640 /etc/ftpusers
+	chmod 440 /etc/inetd.conf
+	chmod 440 /etc/xinted.conf
+	chmod 400 /etc/inetd.d
+	chmod 644 /etc/hosts.allow
+	chmod 440 /etc/sudoers
+	chmod 600 /etc/shadow
+	chown root:root /etc/shadow
+	chmod 644 /etc/passwd
+	chown root:root /etc/passwd
+	chmod 644 /etc/group
+	chown root:root /etc/group
+	chmod 600 /etc/gshadow
+	chown root:root /etc/gshadow
+	chmod 700 /boot
+	chown root:root /etc/anacrontab
+	chmod 600 /etc/anacrontab
+	chown root:root /etc/crontab
+	chmod 600 /etc/crontab
+	chown root:root /etc/cron.hourly
+	chmod 600 /etc/cron.hourly
+	chown root:root /etc/cron.daily
+	chmod 600 /etc/cron.daily
+	chown root:root /etc/cron.weekly
+	chmod 600 /etc/cron.weekly
+	chown root:root /etc/cron.monthly
+	chmod 600 /etc/cron.monthly
+	chown root:root /etc/cron.d
+	chmod 600 /etc/cron.d
 
 #disabling guest
 # echo "DISALLOW GUEST"
