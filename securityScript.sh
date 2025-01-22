@@ -116,6 +116,7 @@ sudo dpkg-reconfigure unattended-upgrades
 #Check for automatic updates
 echo "APT::Periodic::Update-Package-Lists \"1\";
 APT::Periodic::Download-Upgradeable-Packages \"0\";
+APT::Periodic::Unattended-Upgrade "0";
 APT::Periodic::AutocleanInterval \"0\";" > /etc/apt/apt.conf.d/10periodic
 echo "Checks for updates automatically"
 
@@ -279,6 +280,9 @@ configure_sysctl() {
     log "sysctl settings configured"
 }
 
+#calling sysctl function (check?)
+configure_sysctl
+
 # Enable process accounting
     install_package "acct"
     sudo /usr/sbin/accton on
@@ -316,6 +320,7 @@ echo ff02::2 ip6-allrouters >> /etc/hosts
 #finds directories that can be written by anyone, anywhere
 ( echo "finding world writable files" >> worldWrite.txt; find / -perm -2 ! -type l -ls >> worldWrite.txt; echo "Finished looking for world writable files") &
 
+#command not found? 
 sudo unalias -a
 
 #more specific script elements to include https://github.com/konstruktoid/hardening/blob/master/scripts/auditd
