@@ -14,6 +14,7 @@ sed -i 's/^LOGIN_TIMEOUT.*/LOGIN_TIMEOUT   60/' /etc/login.defs
 
 #pam.d settings
 sed -i 's/^password.*pam_pwquality.so.*/password  requisite  pam_pwquality.so retry=3 minlen=10 difok=3 ucredit=-1 lcredit=-1 ocredit=-1 dcredit=-1/' /etc/pam.d/common-password
+#need also in /etc/security/pwquality.conf + dictionary check
 
 # Ensure pam_unix.so is correctly configured 
 sed -i 's/^\(password.*pam_unix.so.*\)/\1 obscure use_authtok try_first_pass yescrypt remember=5/' /etc/pam.d/common-password
@@ -25,7 +26,7 @@ echo "Password policy has been updated. Please test to ensure it works as expect
 #to do
 #enable remember prev password
 #failed login do not authenticate
-#password minlength? 
 #dictionary check enable 
 #encryption set to SHA512
 #password history policy configured
+#add for pwquality.conf
