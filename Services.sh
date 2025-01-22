@@ -147,15 +147,16 @@ ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
 #PasswordAuthentication yes
+#PublicKeyAuthentication yes
 
 # Kerberos options
-#KerberosAuthentication no
+KerberosAuthentication no
 #KerberosGetAFSToken no
 #KerberosOrLocalPasswd yes
 #KerberosTicketCleanup yes
 
 # GSSAPI options
-#GSSAPIAuthentication no
+GSSAPIAuthentication no
 #GSSAPICleanupCredentials yes
 X11Forwarding no
 
@@ -164,6 +165,18 @@ PrintMotd no
 PrintLastLog yes
 TCPKeepAlive yes
 #UseLogin no
+
+#client alive
+ClientAliveInterval 60
+ClientAliveCountMax 3
+
+#extra
+MaxAuthTries 3
+LoginGraceTime 20
+PermitUserEnvironment no
+AllowAgentForwarding no
+AllowTcpForwarding no
+PermitTunnel no
 
 #MaxStartups 10:30:60
 #Banner /etc/issue.net
