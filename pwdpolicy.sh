@@ -20,13 +20,21 @@ sed -i 's/^password.*pam_pwquality.so.*/password  requisite  pam_pwquality.so re
 sed -i 's/^\(password.*pam_unix.so.*\)/\1 obscure use_authtok try_first_pass yescrypt remember=5/' /etc/pam.d/common-password
 # back up version sed -i 's/[success.*/[success=1, default=ignore]    pam_unix.so obscure use_authtok try_first_pass yescrypt remember=5/' /etc/pam.d/common-password
 
+#pwquality
+#enable dictionary check
+if [ $dictcheckExists -eq 0 ]; then
+	sudo bash -c 'echo "dictcheck=1" >> /etc/security/pwquality.conf'
+else
+	sudo perl -pi -e 's/.*dictcheck*/dictcheck=1' /etc/security/pwquality.conf
+fi
+
+
 # Confirmation message
 echo "Password policy has been updated. Please test to ensure it works as expected."
 
 #to do
-#enable remember prev password
 #failed login do not authenticate
-#dictionary check enable 
+#dictionary check enable y
 #encryption set to SHA512
 #password history policy configured
 #add for pwquality.conf
