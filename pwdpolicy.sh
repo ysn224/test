@@ -22,12 +22,12 @@ sed -i 's/^\(password.*pam_unix.so.*\)/\1 obscure use_authtok try_first_pass yes
 
 #pwquality
 #enable dictionary check
-if [ $dictcheckExists -eq 0 ]; then
-	sudo bash -c 'echo "dictcheck=1" >> /etc/security/pwquality.conf'
+CONFIG_FILE="/etc/security/pwquality.conf"
+if grep -q "^dictcheck" "$CONFIG_FILE"; then
+        sed -i 's/^dictcheck=.*/dictcheck=1/' "CONFIG_FILE"
 else
-	sudo perl -pi -e 's/.*dictcheck*/dictcheck=1' /etc/security/pwquality.conf
+        echo "dictcheck=1" >> "$CONFIG_FILE"
 fi
-
 
 # Confirmation message
 echo "Password policy has been updated. Please test to ensure it works as expected."
