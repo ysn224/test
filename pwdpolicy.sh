@@ -133,6 +133,24 @@ configure_sha512_password_hashing() {
 # Call the main function
 configure_sha512_password_hashing
 
+#disable null password
+# Check if the file exists
+if [ -f /etc/pam.d/common-password ]; then
+    echo "Modifying /etc/pam.d/common-password to disable null passwords..."
+
+    # Backup the file before making changes
+    sudo cp /etc/pam.d/common-password /etc/pam.d/common-password.backup
+
+    # Remove 'nullok' if it exists in the common-password file
+    sudo sed -i '/nullok/d' /etc/pam.d/common-password
+
+    # Inform the user
+    echo "Null passwords have been disabled. Please check your system's PAM configuration for verification."
+else
+    echo "Error: PAM configuration file /etc/pam.d/common-password not found."
+    exit 1
+fi
+
 
 
 # Confirmation message
