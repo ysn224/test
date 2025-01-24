@@ -238,9 +238,12 @@ clear
 #what is sysctl??
 
 # Function to configure sysctl
+#!/bin/bash
+
+# Function to configure sysctl
 configure_sysctl() {
-    log "Configuring sysctl settings..."
-    
+    echo "Configuring sysctl settings..."
+
     local sysctl_config=(
         "# IP Spoofing protection"
         "net.ipv4.conf.all.rp_filter = 1"
@@ -295,12 +298,12 @@ configure_sysctl() {
         "# Restrict kernel profiling"
         "kernel.perf_event_paranoid = 2"
         ""
-        # Disable IPv6
+        "# Disable IPv6"
         "net.ipv6.conf.all.disable_ipv6 = 1"
         "net.ipv6.conf.default.disable_ipv6 = 1"
         "net.ipv6.conf.lo.disable_ipv6 = 1"
         ""
-        # Incase IPv6 is necessary
+        "# In case IPv6 is necessary"
         "net.ipv6.conf.default.router_solicitations = 0"
         "net.ipv6.conf.default.accept_ra_rtr_pref = 0"
         "net.ipv6.conf.default.accept_ra_pinfo = 0"
@@ -309,14 +312,15 @@ configure_sysctl() {
         "net.ipv6.conf.default.dad_transmits = 0"
         "net.ipv6.conf.default.max_addresses = 1"
     )
-    
-    printf "%s\n" "${sysctl_config[@]}" | sudo tee -a /etc/sysctl.conf || handle_error "Failed to update sysctl.conf"
-    sudo sysctl -p || handle_error "Failed to apply sysctl changes"
-    log "sysctl settings configured"
+
+    printf "%s\n" "${sysctl_config[@]}" | sudo tee -a /etc/sysctl.conf || { echo "Failed to update sysctl.conf"; exit 1; }
+    sudo sysctl -p || { echo "Failed to apply sysctl changes"; exit 1; }
+    echo "sysctl settings configured successfully"
 }
 
-#calling sysctl function (check?)
+# Call the function to apply sysctl settings
 configure_sysctl
+
 
 # Enable process accounting
     install_package "acct"
