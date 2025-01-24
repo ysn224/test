@@ -360,7 +360,7 @@ echo ff02::2 ip6-allrouters >> /etc/hosts
 ( echo "finding world writable files" >> worldWrite.txt; find / -perm -2 ! -type l -ls >> worldWrite.txt; echo "Finished looking for world writable files") &
 
 #command not found? 
-sudo unalias -a
+unalias -a
 
 #more specific script elements to include https://github.com/konstruktoid/hardening/blob/master/scripts/auditd
 
