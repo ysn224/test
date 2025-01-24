@@ -63,6 +63,7 @@ chown root:root /etc/securetty
 	chmod 400 /etc/inetd.d
 	chmod 644 /etc/hosts.allow
 	chmod 440 /etc/sudoers
+ 	chmod 440 /etc/sudoers.d
 	chmod 600 /etc/shadow
 	chown root:root /etc/shadow
 	chmod 644 /etc/passwd
@@ -88,8 +89,8 @@ chown root:root /etc/securetty
 	chmod 600 /etc/cron.d
 
 #disabling guest
-# echo "DISALLOW GUEST"
-# sudo echo "allow-guest=false" >> /etc/lightdm/lightdm.conf
+echo "DISALLOW GUEST"
+sudo echo "allow-guest=false" >> /etc/lightdm/lightdm.conf
 
 #turn on audit policies
 echo 	"TURN ON AUDIT POLICIES"
@@ -99,6 +100,7 @@ sudo systemctl enable auditd
 sudo systemctl start auditd
 
 #configure auditd
+sudo apt-get install auditd
 cp /etc/audit/auditd.conf /etc/audit/auditd.conf.backup
 echo "
 log_file = /var/log/audit/audit.log
